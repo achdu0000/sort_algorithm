@@ -227,7 +227,37 @@ void CSort::_merge_sort_kernel(int* assistant, int low, int mid, int high)
 	while (j <= high) results[k++] = assistant[j++];
 }
 
- 
+void CSort::quick_sort()
+{
+	if (len == 0)return;
+	_quick_sort_recursion(0, len - 1);
+}
+
+void CSort::_quick_sort_recursion(int low, int high)
+{
+	if (low < high)
+	{
+		int pivot_pos = _quick_sort_partition(low, high);
+		_quick_sort_recursion(low, pivot_pos - 1);
+		_quick_sort_recursion(pivot_pos + 1, high);
+	}
+}
+
+int CSort::_quick_sort_partition(int low, int high)
+{
+	int pivot = results[low];
+	while (low < high)
+	{
+		while (low < high && (!compare(pivot, results[high])))
+			--high;
+		results[low] = results[high];
+		while (low < high && (!compare(results[low], pivot)))
+			++low;
+		results[high] = results[low];
+	}
+	results[low] = pivot;
+	return low;
+}
 
 void CSort::heap_sort()
 {
